@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Get Clients Ready to Buy</title>
 
-  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
 
   <style>
@@ -34,21 +33,6 @@
       max-width: 180px;
     }
 
-    @keyframes goldGlow {
-      0% {
-        text-shadow: 0 0 5px rgba(212, 175, 55, 0.3),
-                     0 0 10px rgba(212, 175, 55, 0.2);
-      }
-      50% {
-        text-shadow: 0 0 12px rgba(212, 175, 55, 0.7),
-                     0 0 20px rgba(212, 175, 55, 0.5);
-      }
-      100% {
-        text-shadow: 0 0 5px rgba(212, 175, 55, 0.3),
-                     0 0 10px rgba(212, 175, 55, 0.2);
-      }
-    }
-
     .tagline {
       text-align: center;
       margin-bottom: 20px;
@@ -57,7 +41,6 @@
       font-family: 'Playfair Display', serif;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      animation: goldGlow 2.5s ease-in-out infinite;
     }
 
     input, select, textarea {
@@ -70,15 +53,6 @@
       color: #fff;
     }
 
-    input::placeholder,
-    textarea::placeholder {
-      color: #888;
-    }
-
-    select {
-      color: #ccc;
-    }
-
     button {
       width: 100%;
       padding: 12px;
@@ -89,10 +63,6 @@
       cursor: pointer;
       color: #000;
       font-weight: bold;
-    }
-
-    button:hover {
-      background: #b8962e;
     }
   </style>
 </head>
@@ -153,15 +123,22 @@ document.getElementById("leadForm").addEventListener("submit", function(e){
   formData.append("Revenue Value", "0");
 
   fetch("https://script.google.com/macros/s/AKfycbxpuaBkGkInA09bAL_fKBOQXEtrY2gB2pxID-MrCXZ-eIF31BMhzpDAur6iXcTmTLVdtA/exec", {
-  method: "POST",
-  body: formData,
-  mode: "cors"
-})
-  .then(() => {
-    window.location.href = "thankyou.html";
+    method: "POST",
+    body: formData
   })
-  .catch(() => {
-    alert("Error submitting form");
+  .then(response => response.text())
+  .then(data => {
+    console.log("Server response:", data);
+
+    if (data.includes("Success")) {
+      window.location.href = "thankyou.html";
+    } else {
+      alert("Error: " + data);
+    }
+  })
+  .catch(error => {
+    console.error("Fetch error:", error);
+    alert("Submission failed. Check console.");
   });
 });
 </script>
