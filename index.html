@@ -153,10 +153,10 @@ document.getElementById("leadForm").addEventListener("submit", function(e){
   formData.append("Revenue Value", "0");
 
   fetch("https://script.google.com/macros/s/AKfycbw5Cj83U4UwnHcQIj47N2eOjLFOfcj97L0OjD1qLX71_0dG7evmxv0taUs3ifhsMY1fjA/exec", {
-    method: "POST",
-    body: formData,
-    mode: "no-cors"
-  })
+  method: "POST",
+  body: formData,
+  mode: "cors"
+})
   .then(() => {
     window.location.href = "thankyou.html";
   })
