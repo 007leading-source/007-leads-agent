@@ -1,39 +1,134 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Get Clients Ready to Buy</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #000000, #111827);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: #0a0a0a;
+      padding: 30px;
+      border-radius: 12px;
+      width: 400px;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.15);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+    }
+
+    .logo {
+      display: block;
+      margin: 0 auto 15px auto;
+      max-width: 180px;
+    }
+
+    .tagline {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #d4af37;
+      font-size: 16px;
+      font-family: 'Playfair Display', serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border: 1px solid #333;
+      border-radius: 6px;
+      background: #111;
+      color: #fff;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #d4af37;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      color: #000;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
 <body>
 
-<form id="leadForm">
-  <input name="Full Name" placeholder="Name" required>
-  <input name="Email" placeholder="Email" required>
-  <input name="Phone" placeholder="Phone">
-  <input name="Business Name" placeholder="Business">
-  <button type="submit">Submit</button>
-</form>
+<div class="container">
+
+  <img src="007.jpg" class="logo">
+  <p class="tagline">We Deliver Clients Ready to Buy</p>
+
+  <!-- Hidden iframe to bypass CORS -->
+  <iframe name="hidden_iframe" style="display:none;"></iframe>
+
+  <form id="leadForm"
+        action="https://script.google.com/macros/s/AKfycbxpuaBkGkInA09bAL_fKBOQXEtrY2gB2pxID-MrCXZ-eIF31BMhzpDAur6iXcTmTLVdtA/exec"
+        method="POST"
+        target="hidden_iframe">
+
+    <input type="text" name="Full Name" placeholder="Full Name" required>
+    <input type="text" name="Phone" placeholder="Phone" required>
+    <input type="email" name="Email" placeholder="Email" required>
+    <input type="text" name="Business Name" placeholder="Business Name">
+
+    <select name="Industry">
+      <option value="">Select Industry</option>
+      <option>Real Estate</option>
+      <option>Dental</option>
+      <option>Automotive</option>
+      <option>E-commerce</option>
+      <option>Other</option>
+    </select>
+
+    <select name="Interest Level">
+      <option value="">Interest Level</option>
+      <option>Low</option>
+      <option>Medium</option>
+      <option>High</option>
+    </select>
+
+    <input type="number" name="Budget" placeholder="Monthly Budget (USD)">
+
+    <textarea name="Notes" placeholder="Tell us about your needs"></textarea>
+
+    <!-- Hidden fields -->
+    <input type="hidden" name="Lead ID">
+    <input type="hidden" name="Date Captured">
+    <input type="hidden" name="Source" value="Landing Page">
+
+    <button type="submit">Deploy My Leads</button>
+
+  </form>
+
+</div>
 
 <script>
-document.getElementById("leadForm").addEventListener("submit", function(e) {
-  e.preventDefault();
+const form = document.getElementById("leadForm");
 
-  const formData = new FormData(this);
+form.addEventListener("submit", function() {
+  form.querySelector('[name="Lead ID"]').value = Date.now();
+  form.querySelector('[name="Date Captured"]').value = new Date().toISOString();
 
-  fetch("https://script.google.com/macros/s/AKfycbxpuaBkGkInA09bAL_fKBOQXEtrY2gB2pxID-MrCXZ-eIF31BMhzpDAur6iXcTmTLVdtA/exec", {
-    method: "POST",
-    body: formData
-  })
-  .then(res => res.json())
-  .then(data => {
-    console.log("Response:", data);
-
-    if (data.status === "success") {
-      alert("SUCCESS ✅");
-    } else {
-      alert("ERROR: " + data.message);
-    }
-  })
-  .catch(err => {
-    console.error("Fetch failed:", err);
-    alert("REQUEST FAILED ❌");
-  });
+  // Redirect after submission
+  setTimeout(() => {
+    window.location.href = "thankyou.html";
+  }, 1000);
 });
 </script>
 
